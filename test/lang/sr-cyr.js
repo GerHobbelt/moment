@@ -2,12 +2,12 @@ var moment = require("../../moment");
 
 
     /**************************************************
-      Serbian
+      Serbian-cyrillic (sr-cyr)
      *************************************************/
 
-exports["lang:rs"] = {
+exports["lang:sr-cyr"] = {
     setUp : function (cb) {
-        moment.lang('rs');
+        moment.lang('sr-cyr');
         cb();
     },
 
@@ -19,7 +19,8 @@ exports["lang:rs"] = {
     "parse" : function (test) {
         test.expect(96);
 
-        var tests = 'januar jan._februar feb._mart mar._april apr._maj maj._jun jun._jul jul._avgust avg._septembar sep._oktobar okt._novembar nov._decembar dec.'.split("_"), i;
+        var tests = 'јануар јан._фебруар феб._март мар._април апр._мај мај_јун јун_јул јул_август авг._септембар сеп._октобар окт._новембар нов._децембар дец.'.split("_"),
+            i;
         function equalTest(input, mmm, i) {
             test.equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
         }
@@ -40,12 +41,12 @@ exports["lang:rs"] = {
     "format" : function (test) {
         test.expect(22);
         var a = [
-                ['dddd, Do MMMM YYYY, h:mm:ss a',      'nedelja, 14. februar 2010, 3:25:50 pm'],
-                ['ddd, hA',                            'ned., 3PM'],
-                ['M Mo MM MMMM MMM',                   '2 2. 02 februar feb.'],
+                ['dddd, Do MMMM YYYY, h:mm:ss a',      'недеља, 14. фебруар 2010, 3:25:50 pm'],
+                ['ddd, hA',                            'нед., 3PM'],
+                ['M Mo MM MMMM MMM',                   '2 2. 02 фебруар феб.'],
                 ['YYYY YY',                            '2010 10'],
                 ['D Do DD',                            '14 14. 14'],
-                ['d do dddd ddd dd',                   '0 0. nedelja ned. ne'],
+                ['d do dddd ddd dd',                   '0 0. недеља нед. не'],
                 ['DDD DDDo DDDD',                      '45 45. 045'],
                 ['w wo ww',                            '7 7. 07'],
                 ['h hh',                               '3 03'],
@@ -55,13 +56,13 @@ exports["lang:rs"] = {
                 ['a A',                                'pm PM'],
                 ['[the] DDDo [day of the year]',       'the 45. day of the year'],
                 ['L',                                  '14. 02. 2010'],
-                ['LL',                                 '14. februar 2010'],
-                ['LLL',                                '14. februar 2010 15:25'],
-                ['LLLL',                               'nedelja, 14. februar 2010 15:25'],
+                ['LL',                                 '14. фебруар 2010'],
+                ['LLL',                                '14. фебруар 2010 15:25'],
+                ['LLLL',                               'недеља, 14. фебруар 2010 15:25'],
                 ['l',                                  '14. 2. 2010'],
-                ['ll',                                 '14. feb. 2010'],
-                ['lll',                                '14. feb. 2010 15:25'],
-                ['llll',                               'ned., 14. feb. 2010 15:25']
+                ['ll',                                 '14. феб. 2010'],
+                ['lll',                                '14. феб. 2010 15:25'],
+                ['llll',                               'нед., 14. феб. 2010 15:25']
             ],
             b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
             i;
@@ -112,7 +113,8 @@ exports["lang:rs"] = {
 
     "format month" : function (test) {
         test.expect(12);
-        var expected = 'januar jan._februar feb._mart mar._april apr._maj maj._jun jun._jul jul._avgust avg._septembar sep._oktobar okt._novembar nov._decembar dec.'.split("_"), i;
+        var expected = 'јануар јан._фебруар феб._март мар._април апр._мај мај_јун јун_јул јул_август авг._септембар сеп._октобар окт._новембар нов._децембар дец.'.split("_"),
+            i;
         for (i = 0; i < expected.length; i++) {
             test.equal(moment([2011, i, 1]).format('MMMM MMM'), expected[i], expected[i]);
         }
@@ -121,7 +123,8 @@ exports["lang:rs"] = {
 
     "format week" : function (test) {
         test.expect(7);
-        var expected = 'nedelja ned. ne_ponedeljak pon. po_utorak uto. ut_sreda sre. sr_četvrtak čet. če_petak pet. pe_subota sub. su'.split("_"), i;
+        var expected = 'недеља нед. не_понедељак пон. по_уторак уто. ут_среда сре. ср_четвртак чет. че_петак пет. пе_субота суб. су'.split("_"),
+            i;
         for (i = 0; i < expected.length; i++) {
             test.equal(moment([2011, 0, 2 + i]).format('dddd ddd dd'), expected[i], expected[i]);
         }
@@ -131,56 +134,56 @@ exports["lang:rs"] = {
     "from" : function (test) {
         test.expect(30);
         var start = moment([2007, 1, 28]);
-        test.equal(start.from(moment([2007, 1, 28]).add({s: 44}), true),  "par sekundi", "44 seconds = a few seconds");
-        test.equal(start.from(moment([2007, 1, 28]).add({s: 45}), true),  "jedna minuta",   "45 seconds = a minute");
-        test.equal(start.from(moment([2007, 1, 28]).add({s: 89}), true),  "jedna minuta",   "89 seconds = a minute");
-        test.equal(start.from(moment([2007, 1, 28]).add({s: 90}), true),  "2 minute",     "90 seconds = 2 minutes");
-        test.equal(start.from(moment([2007, 1, 28]).add({m: 44}), true),  "44 minuta",     "44 minutes = 44 minutes");
-        test.equal(start.from(moment([2007, 1, 28]).add({m: 45}), true),  "jedan sat",      "45 minutes = an hour");
-        test.equal(start.from(moment([2007, 1, 28]).add({m: 89}), true),  "jedan sat",      "89 minutes = an hour");
-        test.equal(start.from(moment([2007, 1, 28]).add({m: 90}), true),  "2 sata",        "90 minutes = 2 hours");
-        test.equal(start.from(moment([2007, 1, 28]).add({h: 5}), true),   "5 sati",         "5 hours = 5 hours");
-        test.equal(start.from(moment([2007, 1, 28]).add({h: 21}), true),  "21 sati",        "21 hours = 21 hours");
-        test.equal(start.from(moment([2007, 1, 28]).add({h: 22}), true),  "dan",       "22 hours = a day");
-        test.equal(start.from(moment([2007, 1, 28]).add({h: 35}), true),  "dan",       "35 hours = a day");
-        test.equal(start.from(moment([2007, 1, 28]).add({h: 36}), true),  "2 dana",        "36 hours = 2 days");
-        test.equal(start.from(moment([2007, 1, 28]).add({d: 1}), true),   "dan",       "1 day = a day");
-        test.equal(start.from(moment([2007, 1, 28]).add({d: 5}), true),   "5 dana",        "5 days = 5 days");
-        test.equal(start.from(moment([2007, 1, 28]).add({d: 25}), true),  "25 dana",       "25 days = 25 days");
-        test.equal(start.from(moment([2007, 1, 28]).add({d: 26}), true),  "mesec",     "26 days = a month");
-        test.equal(start.from(moment([2007, 1, 28]).add({d: 30}), true),  "mesec",     "30 days = a month");
-        test.equal(start.from(moment([2007, 1, 28]).add({d: 45}), true),  "mesec",     "45 days = a month");
-        test.equal(start.from(moment([2007, 1, 28]).add({d: 46}), true),  "2 meseca",     "46 days = 2 months");
-        test.equal(start.from(moment([2007, 1, 28]).add({d: 74}), true),  "2 meseca",     "75 days = 2 months");
-        test.equal(start.from(moment([2007, 1, 28]).add({d: 76}), true),  "3 meseca",     "76 days = 3 months");
-        test.equal(start.from(moment([2007, 1, 28]).add({M: 1}), true),   "mesec",     "1 month = a month");
-        test.equal(start.from(moment([2007, 1, 28]).add({M: 5}), true),   "5 meseci",    "5 months = 5 months");
-        test.equal(start.from(moment([2007, 1, 28]).add({d: 344}), true), "11 meseci",   "344 days = 11 months");
-        test.equal(start.from(moment([2007, 1, 28]).add({d: 345}), true), "godinu",     "345 days = a year");
-        test.equal(start.from(moment([2007, 1, 28]).add({d: 547}), true), "godinu",     "547 days = a year");
-        test.equal(start.from(moment([2007, 1, 28]).add({d: 548}), true), "2 godine",       "548 days = 2 years");
-        test.equal(start.from(moment([2007, 1, 28]).add({y: 1}), true),   "godinu",     "1 year = a year");
-        test.equal(start.from(moment([2007, 1, 28]).add({y: 5}), true),   "5 godina",        "5 years = 5 years");
+        test.equal(start.from(moment([2007, 1, 28]).add({s: 44}), true),  "неколико секунди", "44 seconds = a few seconds");
+        test.equal(start.from(moment([2007, 1, 28]).add({s: 45}), true),  "један минут",   "45 seconds = a minute");
+        test.equal(start.from(moment([2007, 1, 28]).add({s: 89}), true),  "један минут",   "89 seconds = a minute");
+        test.equal(start.from(moment([2007, 1, 28]).add({s: 90}), true),  "2 минуте",     "90 seconds = 2 minutes");
+        test.equal(start.from(moment([2007, 1, 28]).add({m: 44}), true),  "44 минута",     "44 minutes = 44 minutes");
+        test.equal(start.from(moment([2007, 1, 28]).add({m: 45}), true),  "један сат",      "45 minutes = an hour");
+        test.equal(start.from(moment([2007, 1, 28]).add({m: 89}), true),  "један сат",      "89 minutes = an hour");
+        test.equal(start.from(moment([2007, 1, 28]).add({m: 90}), true),  "2 сата",        "90 minutes = 2 hours");
+        test.equal(start.from(moment([2007, 1, 28]).add({h: 5}), true),   "5 сати",         "5 hours = 5 hours");
+        test.equal(start.from(moment([2007, 1, 28]).add({h: 21}), true),  "21 сати",        "21 hours = 21 hours");
+        test.equal(start.from(moment([2007, 1, 28]).add({h: 22}), true),  "дан",       "22 hours = a day");
+        test.equal(start.from(moment([2007, 1, 28]).add({h: 35}), true),  "дан",       "35 hours = a day");
+        test.equal(start.from(moment([2007, 1, 28]).add({h: 36}), true),  "2 дана",        "36 hours = 2 days");
+        test.equal(start.from(moment([2007, 1, 28]).add({d: 1}), true),   "дан",       "1 day = a day");
+        test.equal(start.from(moment([2007, 1, 28]).add({d: 5}), true),   "5 дана",        "5 days = 5 days");
+        test.equal(start.from(moment([2007, 1, 28]).add({d: 25}), true),  "25 дана",       "25 days = 25 days");
+        test.equal(start.from(moment([2007, 1, 28]).add({d: 26}), true),  "месец",     "26 days = a month");
+        test.equal(start.from(moment([2007, 1, 28]).add({d: 30}), true),  "месец",     "30 days = a month");
+        test.equal(start.from(moment([2007, 1, 28]).add({d: 45}), true),  "месец",     "45 days = a month");
+        test.equal(start.from(moment([2007, 1, 28]).add({d: 46}), true),  "2 месеца",     "46 days = 2 months");
+        test.equal(start.from(moment([2007, 1, 28]).add({d: 74}), true),  "2 месеца",     "75 days = 2 months");
+        test.equal(start.from(moment([2007, 1, 28]).add({d: 76}), true),  "3 месеца",     "76 days = 3 months");
+        test.equal(start.from(moment([2007, 1, 28]).add({M: 1}), true),   "месец",     "1 month = a month");
+        test.equal(start.from(moment([2007, 1, 28]).add({M: 5}), true),   "5 месеци",    "5 months = 5 months");
+        test.equal(start.from(moment([2007, 1, 28]).add({d: 344}), true), "11 месеци",   "344 days = 11 months");
+        test.equal(start.from(moment([2007, 1, 28]).add({d: 345}), true), "годину",     "345 days = a year");
+        test.equal(start.from(moment([2007, 1, 28]).add({d: 547}), true), "годину",     "547 days = a year");
+        test.equal(start.from(moment([2007, 1, 28]).add({d: 548}), true), "2 године",       "548 days = 2 years");
+        test.equal(start.from(moment([2007, 1, 28]).add({y: 1}), true),   "годину",     "1 year = a year");
+        test.equal(start.from(moment([2007, 1, 28]).add({y: 5}), true),   "5 година",        "5 years = 5 years");
         test.done();
     },
 
     "suffix" : function (test) {
         test.expect(2);
-        test.equal(moment(30000).from(0), "za par sekundi",  "prefix");
-        test.equal(moment(0).from(30000), "pre par sekundi", "prefix");
+        test.equal(moment(30000).from(0), "за неколико секунди",  "prefix");
+        test.equal(moment(0).from(30000), "пре неколико секунди", "prefix");
         test.done();
     },
 
     "now from now" : function (test) {
         test.expect(1);
-        test.equal(moment().fromNow(), "pre par sekundi",  "now from now should display as in the past");
+        test.equal(moment().fromNow(), "пре неколико секунди",  "now from now should display as in the past");
         test.done();
     },
 
     "fromNow" : function (test) {
         test.expect(2);
-        test.equal(moment().add({s: 30}).fromNow(), "za par sekundi", "in a few seconds");
-        test.equal(moment().add({d: 5}).fromNow(), "za 5 dana", "in 5 days");
+        test.equal(moment().add({s: 30}).fromNow(), "за неколико секунди", "in a few seconds");
+        test.equal(moment().add({d: 5}).fromNow(), "за 5 дана", "in 5 days");
         test.done();
     },
 
@@ -189,12 +192,12 @@ exports["lang:rs"] = {
 
         var a = moment().hours(2).minutes(0).seconds(0);
 
-        test.equal(moment(a).calendar(),                     "danas u 2:00",  "today at the same time");
-        test.equal(moment(a).add({ m: 25 }).calendar(),      "danas u 2:25",  "Now plus 25 min");
-        test.equal(moment(a).add({ h: 1 }).calendar(),       "danas u 3:00",  "Now plus 1 hour");
-        test.equal(moment(a).add({ d: 1 }).calendar(),       "sutra u 2:00",  "tomorrow at the same time");
-        test.equal(moment(a).subtract({ h: 1 }).calendar(),  "danas u 1:00",  "Now minus 1 hour");
-        test.equal(moment(a).subtract({ d: 1 }).calendar(),  "juče u 2:00", "yesterday at the same time");
+        test.equal(moment(a).calendar(),                     "данас у 2:00",  "today at the same time");
+        test.equal(moment(a).add({ m: 25 }).calendar(),      "данас у 2:25",  "Now plus 25 min");
+        test.equal(moment(a).add({ h: 1 }).calendar(),       "данас у 3:00",  "Now plus 1 hour");
+        test.equal(moment(a).add({ d: 1 }).calendar(),       "сутра у 2:00",  "tomorrow at the same time");
+        test.equal(moment(a).subtract({ h: 1 }).calendar(),  "данас у 1:00",  "Now minus 1 hour");
+        test.equal(moment(a).subtract({ d: 1 }).calendar(),  "јуче у 2:00", "yesterday at the same time");
         test.done();
     },
 
@@ -206,16 +209,16 @@ exports["lang:rs"] = {
         function makeFormat(d) {
             switch (d.day()) {
             case 0:
-                return '[u] [nedelju] [u] LT';
+                return '[у] [недељу] [у] LT';
             case 3:
-                return '[u] [sredu] [u] LT';
+                return '[у] [среду] [у] LT';
             case 6:
-                return '[u] [subotu] [u] LT';
+                return '[у] [суботу] [у] LT';
             case 1:
             case 2:
             case 4:
             case 5:
-                return '[u] dddd [u] LT';
+                return '[у] dddd [у] LT';
             }
         }
 
@@ -236,18 +239,17 @@ exports["lang:rs"] = {
         var i, m;
 
         function makeFormat(d) {
-            switch (d.day()) {
-            case 0:
-            case 3:
-                return '[prošlu] dddd [u] LT';
-            case 6:
-                return '[prošle] [subote] [u] LT';
-            case 1:
-            case 2:
-            case 4:
-            case 5:
-                return '[prošli] dddd [u] LT';
-            }
+            var lastWeekDay = [
+                    '[прошле] [недеље] [у] LT',
+                    '[прошлог] [понедељка] [у] LT',
+                    '[прошлог] [уторка] [у] LT',
+                    '[прошле] [среде] [у] LT',
+                    '[прошлог] [четвртка] [у] LT',
+                    '[прошлог] [петка] [у] LT',
+                    '[прошле] [суботе] [у] LT'
+                ];
+
+            return lastWeekDay[d.day()];
         }
 
         for (i = 2; i < 7; i++) {
@@ -385,7 +387,7 @@ exports["lang:rs"] = {
 
     "returns the name of the language" : function (test) {
         if (typeof module !== 'undefined' && module.exports) {
-            test.equal(require('../../lang/rs'), 'rs', "module should export rs");
+            test.equal(require('../../lang/sr-cyr'), 'sr-cyr', "module should export sr-cyr");
         }
 
         test.done();
